@@ -1,0 +1,75 @@
+<template>
+
+<v-dialog width="360" v-model="visible" :return-value.sync="visible">
+  <template #activator="{ props }" >
+    <j-input v-bind="props"
+    append-icon="mdi-calendar"
+    @click="visible = true"
+    :model-value="modelValue"></j-input>
+  </template>
+  <v-card>
+    <v-date-picker 
+    v-model="currentDate" 
+    show-adjacent-months 
+    @update:modelValue="onUpdate" />
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn @click="onCancel">Cancel</v-btn>
+      <v-btn @click="onSubmit">OK</v-btn>
+    </v-card-actions>
+  </v-card>
+</v-dialog>
+
+</template>
+
+<script lang="ts" setup>
+import { propsToAttrMap } from "@vue/shared";
+import JInput from "./Input.vue"
+
+const props = defineProps({
+  modelValue: {
+    required: true,
+    type: String,
+  },
+})
+
+// update v-model
+const emit = defineEmits(['update:modelValue'])
+// dialog status value (showen/hidden)
+const visible = ref(false)
+// current date value
+const currentDate = ref()
+// date picker date value
+const selectedDate = ref()
+
+// update to selected date of value
+const onUpdate: (date: Date) => void = (date) => {
+  selectedDate.value = formatted(date)
+}
+
+// date format to string
+const formatted = (value: Date) => {
+  return [value.getFullYear(), value.getMonth(), value.getDate()].join("-")
+}
+
+// click cancel event
+const onCancel = () => {
+  visible.value = false
+}
+
+// click submit event
+// 1. update v-model value
+// 2. dialog closed
+const onSubmit = () => {
+  emit("update:modelValue", selectedDate.value)
+  visible.value = false
+}
+
+// document mounted after...
+onMounted(() => {
+  if(!props.modelValue) {
+    onUpdate(new Date)
+    onSubmit()
+  }
+})
+</script>
