@@ -1,26 +1,4 @@
-標誌
-問題
-合併請求
-里程碑
-探索
- 
-劉超
-DEMO
-/
-nuxt3-demo
-程式碼
-問題
-合併請求
-套件
-專案
-版本發布
-Wiki
-動態
-設定
-nuxt3-demo/src/components/Checkbox.vue
-45 行
-1004 B
-Vue
+
 <template>
    <div class="j-checkbox">
     <template v-for="item in options">
@@ -66,12 +44,3 @@ const onChange = (value: ModelValue) => {
     display: flex;
 }
 </style>
-技術提供: Gitea
-版本:
-1.20.4+19-g2138661da
-頁面:
-107ms
-模板:
-10ms
-授權條款
-API
